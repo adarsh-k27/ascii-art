@@ -9,8 +9,8 @@ const imageData=`data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAF8CAMAAADW5
 function App() {
   const canvasRef=useRef()
   const [_image,setImage]=useState(null)
-  const [MyArt,setArt]=useState(null)
-  const [progress,setProgress]=useState(3)
+  const MyArt=useRef(null)
+  const [progress,setProgress]=useState(null)
   console.log("REnndering !!!!");
   class CELL{
     constructor(x,y,color,symbol){
@@ -111,7 +111,7 @@ function App() {
       image.onload=function init(){
         let ctx= canvasRef.current.getContext("2d");
         let art=new ASCIIimage(image.width,image.height,ctx,image)
-        setArt(art)
+        MyArt.current=art
          art.draw(3)
 
       }
@@ -120,8 +120,10 @@ function App() {
 
 
     useEffect(()=>{
-      if(MyArt){
-        MyArt?.draw(progress)
+      if(progress && MyArt.current){
+        
+          MyArt.current?.draw(progress)
+        
       }
     },[progress])
 
